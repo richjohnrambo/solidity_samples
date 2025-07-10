@@ -23,7 +23,7 @@ contract Bank {
         owner = msg.sender;
     }
 
-    function deposit() external payable  {
+    receive( ) external payable  {
         // msg.value 代表存入合约的以太币数量
         uint256 amount = msg.value;
 
@@ -53,8 +53,15 @@ contract Bank {
     }
 
 
+
+
     function getBalance() public view returns (uint) {
         return balances[msg.sender];
+    }
+
+
+    function getTop3Users() public view returns (address[3] memory){
+        return top3Users;
     }
 
     function withdraw(uint256 amount) public payable {
@@ -71,5 +78,7 @@ contract Bank {
         payable(msg.sender).transfer(amount);
 
     }
+
+
 
 }
