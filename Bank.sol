@@ -68,8 +68,6 @@ contract Bank {
 
         //管理员校验
         require(msg.sender == owner, "You are not the owner");
-        // 确保用户有足够的余额
-        require(balances[msg.sender] >= amount, "Insufficient balance");
 
         // 更新用户余额
         balances[msg.sender] -= amount;
