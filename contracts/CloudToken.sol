@@ -12,6 +12,7 @@ interface IERC20 {
     view
     returns (uint256);
     function approve(address spender, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
     function transferFrom(address sender, address recipient, uint256 amount)
     external
     returns (bool);
@@ -38,9 +39,10 @@ contract CloudToken is IERC20{
         symbol = "CT";
         decimals = 18;
         totalSupply = 1000000;
+        balances[msg.sender] = totalSupply;
     }
 
-    function transfer(address _to, uint256 _value) public returns (bool success) {
+    function transfer(address _to, uint256 _value) public  returns (bool success) {
         // write your code here
         balances[msg.sender] -= _value;
         balances[_to] += _value;
@@ -48,8 +50,18 @@ contract CloudToken is IERC20{
         return true;
     }
 
+    function balanceOf(address account) external view returns (uint256){
+        // write your code here
+        return balances[account];
+    }
+
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         // write your code here
+        require(_to != address(0), "Invalid recipient");
+        require(_from != address(0), "Invalid sender");
+        require(balances[_from]>=_value,"Insufficient balance");
+        require(allowances[_from][msg.sender]>=_value,"Insufficient approved balance");
+
         allowances[_from][msg.sender] -= _value;
         balances[_from] -= _value;
         balances[_to] += _value;
@@ -60,6 +72,7 @@ contract CloudToken is IERC20{
 
     function approve(address _spender, uint256 _value) public returns (bool success) {
         // write your code here
+        allowances[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
