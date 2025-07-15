@@ -12,7 +12,6 @@ contract TokenBankV2 is TokenBank {
 
     // 在 TokenBankV2 中显式调用父类的构造函数
     constructor(address _tokenAddress) TokenBank(_tokenAddress) {
-        // 这里可以加入 TokenBankV2 的初始化逻辑
     }
 
 
