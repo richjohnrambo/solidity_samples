@@ -9,7 +9,7 @@ contract MyNFT is ERC721URIStorage, Ownable {
     uint256 private _tokenIdCounter;
 
     // 构造函数，传递名称和符号给 ERC721 的构造函数
-    constructor(uint256 initialSupply) ERC721("MyAwesomeToken", "MAT") Ownable(msg.sender) {
+    constructor(uint256 initialSupply) ERC721("RedToken", "RT") Ownable(msg.sender) {
         _mint(msg.sender, initialSupply); // 初始供应量铸造给部署者
     }
 
