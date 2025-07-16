@@ -75,4 +75,19 @@ contract NFTMarket is Ownable {
         // 清除上架信息
         delete listings[tokenId];
     }
+
+        // ERC-20 扩展 Token 接收者方法：用于接收购买 NFT 的代币并执行购买操作
+    function tokensReceived(address sender, uint256 amount, bytes calldata data) external  {
+        // 获取 NFT ID 和购买价格
+        uint256 tokenId = abi.decode(data, (uint256));
+        Listing memory listing = listings[tokenId];
+        
+        require(listing.price == amount, "Incorrect amount of tokens");
+        
+        // 将 NFT 转移给买家
+        nftContract.transferFrom(address(this), sender, tokenId);
+
+        // 清除上架信息
+        delete listings[tokenId];
+    }
 }
